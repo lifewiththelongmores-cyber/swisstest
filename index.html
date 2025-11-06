@@ -9,11 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
-  <!-- hdkit (Human Design library) -->
-  <script type="module">
-    import * as hdkit from "https://unpkg.com/hdkit@latest/dist/index.js";
-    window.hdkit = hdkit;
-  </script>
+  <!-- UMD (browser-ready) version of hdkit -->
+  <script src="https://unpkg.com/hdkit@latest/dist/hdkit.umd.js"></script>
 </head>
 
 <body>
@@ -45,14 +42,12 @@
       <button type="submit">Generate My Chart</button>
     </form>
 
-    <!-- This is where the real results will appear -->
+    <!-- Where the results show -->
     <div id="result"></div>
   </section>
 
-  <!-- JS logic -->
-  <script type="module">
-    import * as hdkit from "https://unpkg.com/hdkit@latest/dist/index.js";
-
+  <!-- Working JS logic (after UMD script loads) -->
+  <script>
     document.getElementById('chart-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -60,11 +55,10 @@
       const time = document.getElementById('birth-time').value;
       const datetime = new Date(`${date}T${time}`);
 
-      // Default location until real lat/lon added
-      const location = { lat: 0, lon: 0 };
+      const location = { lat: 0, lon: 0 }; // TODO: Add real lat/lon lookup later
 
       try {
-        const chart = await hdkit.generateChart(datetime, location);
+        const chart = await window.hdkit.generateChart(datetime, location);
 
         document.getElementById('result').innerHTML = `
           <h2>Your Human Design</h2>
@@ -74,9 +68,9 @@
           <p><strong>Defined Centers:</strong> ${chart.definedCenters?.join(', ') || 'None'}</p>
         `;
       } catch (error) {
-        console.error(error);
+        console.error('Chart generation failed:', error);
         document.getElementById('result').innerHTML = `
-          <p>Sorry, there was an issue generating your chart. Please try again later.</p>
+          <p>Sorry, we couldn’t generate your chart. Try again or check the console for errors.</p>
         `;
       }
     });
