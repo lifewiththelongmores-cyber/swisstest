@@ -1,4 +1,7 @@
-
+<script type="module">
+  import * as hdkit from './hdkit/index.js';
+  window.hdkit = hdkit;
+</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,3 +53,30 @@
   <script src="script.js"></script>
 </body>
 </html>
+<script type="module">
+  import * as hdkit from './hdkit/index.js'; // OR CDN link
+
+  document.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Get form values
+    const date = document.getElementById('birthdate').value;
+    const time = document.getElementById('birthtime').value;
+    const datetime = new Date(`${date}T${time}`);
+
+    // Use a fixed location for now (can add real lat/lon later)
+    const location = { lat: 0, lon: 0 };
+
+    // Generate chart
+    const chart = await hdkit.generateChart(datetime, location);
+
+    // Output the type and defined centers
+    document.getElementById('result').innerHTML = `
+      <h2>Your Human Design</h2>
+      <p><strong>Type:</strong> ${chart.type}</p>
+      <p><strong>Authority:</strong> ${chart.authority}</p>
+      <p><strong>Defined Centers:</strong> ${chart.definedCenters.join(', ')}</p>
+       <div id="result"></div> 
+    `;
+  });
+</script>
