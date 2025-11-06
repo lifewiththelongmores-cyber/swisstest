@@ -4,15 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Discover Your Human Design</title>
-
-  <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
-  <!-- UMD (browser-ready) version of hdkit -->
-  <script src="https://unpkg.com/hdkit@latest/dist/hdkit.umd.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
   <section class="hero">
     <h1>Discover Your Human Design</h1>
@@ -23,7 +17,6 @@
   <section id="form-section" class="container">
     <h2>Enter Your Birth Information</h2>
     <p class="sub">Your exact birth date, time, and location are essential for an accurate chart calculation.</p>
-
     <form id="chart-form">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" placeholder="Your full name">
@@ -41,37 +34,48 @@
 
       <button type="submit">Generate My Chart</button>
     </form>
-
-    <!-- Where the results show -->
-    <div id="result"></div>
   </section>
 
-  <!-- Working JS logic (after UMD script loads) -->
-  <script>
+  <section id="result" class="container"></section>
+
+  <!-- Include local script logic -->
+  <script type="module">
+    import * as hdkit from './hdkit/index.js';
+
+    window.hdkit = hdkit;
+
     document.getElementById('chart-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const date = document.getElementById('birth-date').value;
       const time = document.getElementById('birth-time').value;
+
+      if (!date || !time) {
+        alert("Please enter both date and time.");
+        return;
+      }
+
       const datetime = new Date(`${date}T${time}`);
 
-      const location = { lat: 0, lon: 0 }; // TODO: Add real lat/lon lookup later
+      // For now, we use a placeholder location (you can upgrade this later)
+      const location = {
+        lat: 0,
+        lon: 0
+      };
 
       try {
-        const chart = await window.hdkit.generateChart(datetime, location);
+        const chart = await hdkit.generateChart(datetime, location);
 
         document.getElementById('result').innerHTML = `
           <h2>Your Human Design</h2>
           <p><strong>Type:</strong> ${chart.type}</p>
           <p><strong>Strategy:</strong> ${chart.strategy}</p>
           <p><strong>Authority:</strong> ${chart.authority}</p>
-          <p><strong>Defined Centers:</strong> ${chart.definedCenters?.join(', ') || 'None'}</p>
+          <p><strong>Defined Centers:</strong> ${chart.definedCenters?.join(', ')}</p>
         `;
-      } catch (error) {
-        console.error('Chart generation failed:', error);
-        document.getElementById('result').innerHTML = `
-          <p>Sorry, we couldn’t generate your chart. Try again or check the console for errors.</p>
-        `;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('result').innerHTML = `<p>Something went wrong generating your chart. Please try again.</p>`;
       }
     });
   </script>
