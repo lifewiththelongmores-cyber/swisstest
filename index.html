@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles.css">
+  <title>Discover Your Human Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <section class="hero">
+    <h1>Discover Your Human Design</h1>
+    <p>Unlock the blueprint of your unique energetic signature. Explore your Type, Strategy, Authority, and the sacred geometry of your being.</p>
+    <a href="#form-section" class="cta-button">Calculate Your Chart →</a>
+  </section>
+
+  <section id="form-section" class="container">
+    <h2>Enter Your Birth Information</h2>
+    <p class="sub">Your exact birth date, time, and location are essential for an accurate chart calculation.</p>
+    <form id="chart-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name">
+
+      <label for="birth-date">Birth Date</label>
+      <input type="date" id="birth-date" required />
+
+      <label for="birthTime">Birth Time</label>
+      <input type="time" id="birthTime" name="birthTime">
+      <small>Exact time is essential for an accurate chart</small>
+
+      <label for="birth-location">Birth Location</label>
+      <input type="text" id="birth-location" placeholder="City, Country" required />
+      <small>Enter your birth city and country for timezone accuracy</small>
+
+      <button type="submit">Generate My Chart</button>
+    </form>
+
+    <div id="chart" class="hidden">
+      <h3>Your Human Design Chart</h3>
+      <p>Type: Manifesting Generator</p>
+      <p>Strategy: To Respond</p>
+      <p>Authority: Emotional Authority</p>
+    </div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>

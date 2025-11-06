@@ -1,0 +1,118 @@
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  background-image: url("images/background.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+  background: transparent;
+  color: white;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.cta-button {
+  display: inline-block;
+  background: linear-gradient(to right, #9b5de5, #6a4c93);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.cta-button:hover {
+  background: linear-gradient(to right, #b075f0, #7c5bb5);
+}
+
+.container {
+  background: #ffffff;
+  color: #333;
+  max-width: 500px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.container h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  text-align: center;
+  color: #4a3b7d;
+}
+
+.sub {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+form label {
+  display: block;
+  margin: 1rem 0 0.3rem;
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+form button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 14px;
+  background-color: #6a4c93;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background-color: #9b5de5;
+}
+
+#chart {
+  margin-top: 2rem;
+  background: #fff3d9;
+  padding: 1.5rem;
+  border-left: 4px solid #ffb703;
+  border-radius: 8px;
+  color: #000;
+}
+
+.hidden {
+  display: none;
+}
