@@ -1,20 +1,21 @@
-<script type="module">
-  import * as hdkit from './hdkit/index.js';
-  window.hdkit = hdkit;
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="module">
-  import * as hdkit from "https://unpkg.com/hdkit@latest/dist/index.js";
-  window.hdkit = hdkit;
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="styles.css">
   <title>Discover Your Human Design</title>
+
+  <!-- Fonts & CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- hdkit (Human Design library) -->
+  <script type="module">
+    import * as hdkit from "https://unpkg.com/hdkit@latest/dist/index.js";
+    window.hdkit = hdkit;
+  </script>
 </head>
+
 <body>
   <section class="hero">
     <h1>Discover Your Human Design</h1>
@@ -25,6 +26,7 @@
   <section id="form-section" class="container">
     <h2>Enter Your Birth Information</h2>
     <p class="sub">Your exact birth date, time, and location are essential for an accurate chart calculation.</p>
+
     <form id="chart-form">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" placeholder="Your full name">
@@ -32,8 +34,8 @@
       <label for="birth-date">Birth Date</label>
       <input type="date" id="birth-date" required />
 
-      <label for="birthTime">Birth Time</label>
-      <input type="time" id="birthTime" name="birthTime">
+      <label for="birth-time">Birth Time</label>
+      <input type="time" id="birth-time" name="birth-time" required />
       <small>Exact time is essential for an accurate chart</small>
 
       <label for="birth-location">Birth Location</label>
@@ -43,35 +45,41 @@
       <button type="submit">Generate My Chart</button>
     </form>
 
- 
+    <!-- This is where the real results will appear -->
+    <div id="result"></div>
   </section>
-  <script src="script.js"></script>
+
+  <!-- JS logic -->
+  <script type="module">
+    import * as hdkit from "https://unpkg.com/hdkit@latest/dist/index.js";
+
+    document.getElementById('chart-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const date = document.getElementById('birth-date').value;
+      const time = document.getElementById('birth-time').value;
+      const datetime = new Date(`${date}T${time}`);
+
+      // Default location until real lat/lon added
+      const location = { lat: 0, lon: 0 };
+
+      try {
+        const chart = await hdkit.generateChart(datetime, location);
+
+        document.getElementById('result').innerHTML = `
+          <h2>Your Human Design</h2>
+          <p><strong>Type:</strong> ${chart.type}</p>
+          <p><strong>Strategy:</strong> ${chart.strategy}</p>
+          <p><strong>Authority:</strong> ${chart.authority}</p>
+          <p><strong>Defined Centers:</strong> ${chart.definedCenters?.join(', ') || 'None'}</p>
+        `;
+      } catch (error) {
+        console.error(error);
+        document.getElementById('result').innerHTML = `
+          <p>Sorry, there was an issue generating your chart. Please try again later.</p>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
-<script type="module">
-  import * as hdkit from './hdkit/index.js'; // OR CDN link
-
-  document.querySelector('form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    // Get form values
-    const date = document.getElementById('birthdate').value;
-    const time = document.getElementById('birthtime').value;
-    const datetime = new Date(`${date}T${time}`);
-
-    // Use a fixed location for now (can add real lat/lon later)
-    const location = { lat: 0, lon: 0 };
-
-    // Generate chart
-    const chart = await hdkit.generateChart(datetime, location);
-
-    // Output the type and defined centers
-    document.getElementById('result').innerHTML = `
-      <h2>Your Human Design</h2>
-      <p><strong>Type:</strong> ${chart.type}</p>
-      <p><strong>Authority:</strong> ${chart.authority}</p>
-      <p><strong>Defined Centers:</strong> ${chart.definedCenters.join(', ')}</p>
-       <div id="result"></div> 
-    `;
-  });
-</script>
